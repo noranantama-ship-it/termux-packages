@@ -36,6 +36,8 @@ jobs:
 
       - name: Build bootstrap archives
         run: |
+          SDK_REV=$(grep -oP 'TERMUX_SDK_REVISION=\K[0-9]+' scripts/properties.sh | head -1)
+          TERMUX_DOCKER_EXEC_EXTRA_ARGS="--env ANDROID_HOME=/home/builder/termux-packages/output/android-sdk-$SDK_REV" \
           ./scripts/run-docker.sh ./scripts/build-bootstraps.sh \
             --architectures "${{ github.event.inputs.architectures }}" \
             --add "${{ github.event.inputs.packages }}"
