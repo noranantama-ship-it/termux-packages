@@ -246,7 +246,7 @@ create_bootstrap_archive() {
 		zip -r9 "${BOOTSTRAP_TMPDIR}/bootstrap-${1}.zip" ./*
 	)
 
-	mv -f "${BOOTSTRAP_TMPDIR}/bootstrap-${1}.zip" "$TERMUX_PACKAGES_DIRECTORY/"
+	mv -f "${BOOTSTRAP_TMPDIR}/bootstrap-${1}.zip" "$TERMUX_PACKAGES_DIRECTORY/output/" # output/ is the only repo path writable under the restricted AppArmor profile
 
 	echo "[*] Finished successfully (${1})."
 

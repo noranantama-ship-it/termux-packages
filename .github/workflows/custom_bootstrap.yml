@@ -46,6 +46,6 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: bootstrap-com.tgbot.engine-${{ github.run_id }}
-          path: "*.zip"
+          path: "output/bootstrap-*.zip"
           if-no-files-found: error
           retention-days: 30
