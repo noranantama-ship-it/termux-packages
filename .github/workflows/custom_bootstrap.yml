@@ -1,0 +1,44 @@
+name: Build custom bootstrap (com.tgbot.engine)
+
+on:
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: "Extra packages baked into bootstrap (comma-separated)"
+        default: "python,git"
+        required: true
+      architectures:
+        description: "Architectures to build (comma-separated)"
+        default: "aarch64"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Git clone
+        uses: actions/checkout@v7
+
+      - name: Pull builder docker image
+        run: ./scripts/run-docker.sh true
+
+      - name: Free additional disk space
+        run: ./scripts/free-space.sh
+
+      - name: Build bootstrap archives
+        run: |
+          ./scripts/run-docker.sh ./scripts/build-bootstraps.sh \
+            --architectures "${{ github.event.inputs.architectures }}" \
+            --add "${{ github.event.inputs.packages }}"
+
+      - name: Store artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: bootstrap-com.tgbot.engine-${{ github.run_id }}
+          path: "*.zip"
+          if-no-files-found: error
+          retention-days: 30
