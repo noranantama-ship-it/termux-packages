@@ -12,6 +12,11 @@ TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_SKIP_SRC_EXTRACT=true
 
 termux_step_get_source() {
+	# Pre-seed the download cache from repo-local copies: archive.docbook.org
+	# is unreliable from CI runners. termux_download skips downloading when
+	# the cached file already matches the expected checksum.
+	mkdir -p $TERMUX_PKG_CACHEDIR
+	cp -f $TERMUX_SCRIPTDIR/local-cache/docbook-xml/*.zip $TERMUX_PKG_CACHEDIR/ 2>/dev/null || true
 	termux_download "https://archive.docbook.org/xml/4.1.2/docbkx412.zip" \
 		$TERMUX_PKG_CACHEDIR/docbkx412.zip \
 		30f0644064e0ea71751438251940b1431f46acada814a062870f486c772e7772
