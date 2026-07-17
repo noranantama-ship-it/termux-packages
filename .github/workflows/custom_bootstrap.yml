@@ -29,6 +29,11 @@ jobs:
       - name: Free additional disk space
         run: ./scripts/free-space.sh
 
+      - name: Install extra Android SDK components (termux-am)
+        run: |
+          chmod +x ./scripts/setup-termux-am-sdk.sh
+          ./scripts/run-docker.sh ./scripts/setup-termux-am-sdk.sh
+
       - name: Build bootstrap archives
         run: |
           ./scripts/run-docker.sh ./scripts/build-bootstraps.sh \
