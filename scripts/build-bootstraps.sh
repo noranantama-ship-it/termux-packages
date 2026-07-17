@@ -429,7 +429,7 @@ main() {
 
 		# Core utilities.
 		PACKAGES+=("bash") # Used by `termux-bootstrap-second-stage.sh`
-		PACKAGES+=("bzip2")
+		PACKAGES+=("libbz2") # provides the bzip2 subpackage; standalone bzip2 package was removed
 		if ! ${BOOTSTRAP_ANDROID10_COMPATIBLE}; then
 			PACKAGES+=("command-not-found")
 		else
